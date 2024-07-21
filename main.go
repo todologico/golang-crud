@@ -9,42 +9,41 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//var db *sql.DB
-
 //--------------------------------------
-// home
+// product list with database access (mariadb)
 //--------------------------------------
-func home(w http.ResponseWriter, r *http.Request) {  
+func home(w http.ResponseWriter, r *http.Request) {
     
-    
-
+    //secrets - only for dev
     dsn := "golang:00000000@tcp(golang-db:3310)/golang"
 
-
-
-    // Abrir una conexión a la base de datos
+    // database connection
     db, err := sql.Open("mysql", dsn)
     if err != nil {
-        fmt.Println("Error al conectar a la base de datos:", err)
+        http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
         return
     }
     defer db.Close()
 
-    // Verificar la conexión
+    // Confirm the connection
     if err := db.Ping(); err != nil {
-        fmt.Println("Error al verificar la conexión:", err)
+        http.Error(w, "Error verifying the connection: "+err.Error(), http.StatusInternalServerError)
         return
     }
 
-    // Ejecutar una consulta
-    rows, err := db.Query("SELECT id,name,quantity FROM products")
+    // Query
+    rows, err := db.Query("SELECT id, name, quantity FROM products")
     if err != nil {
-        fmt.Println("Error al ejecutar la consulta:", err)
+        http.Error(w, "Error executing the query: "+err.Error(), http.StatusInternalServerError)
         return
     }
     defer rows.Close()
 
-    // Leer los resultados
+    // HTML BUFFER
+    var htmlResponse string
+    htmlResponse += "<html><body><h1>Product List</h1><table border='1'><tr><th>ID</th><th>Name</th><th>Quantity</th></tr>"
+
+    // HTML Table to display results
     for rows.Next() {
         var id int
         var name string
@@ -52,22 +51,24 @@ func home(w http.ResponseWriter, r *http.Request) {
         
         err := rows.Scan(&id, &name, &quantity)
         if err != nil {
-            fmt.Println("Error al leer una fila:", err)
+            http.Error(w, "Error reading row: "+err.Error(), http.StatusInternalServerError)
             return
         }
         
-        fmt.Printf("ID: %d, Nombre: %s, Edad: %d\n", id, name, quantity)
+        htmlResponse += fmt.Sprintf("<tr><td>%d</td><td>%s</td><td>%d</td></tr>", id, name, quantity)
     }
 
-    // Verificar si ocurrieron errores durante la iteración de las filas
+    // Verify for errors while iterating over rows
     if err := rows.Err(); err != nil {
-        fmt.Println("Error durante la iteración de filas:", err)
+        http.Error(w, "Error during row iteration: "+err.Error(), http.StatusInternalServerError)
+        return
     }
 
+    htmlResponse += "</table></body></html>"
 
-    fmt.Fprintf(w, "home url 2")
-
-    
+    // Response
+    w.Header().Set("Content-Type", "text/html")
+    w.Write([]byte(htmlResponse))
 }
 
 //--------------------------------------
