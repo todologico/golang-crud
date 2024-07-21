@@ -6,10 +6,9 @@ package main
 
 import (
 	"fmt"
+	"go-crud/controllers"
 	"log"
 	"net/http"
-
-	"go-crud/controllers"
 )
 
 //--------------------------------------
@@ -17,7 +16,7 @@ import (
 //--------------------------------------
 func main() {
 
-    http.HandleFunc("/", controllers.HomeHandler)
+    http.HandleFunc("/", controllers.ProductHandler)
 
     http.HandleFunc("/services", services)
 
