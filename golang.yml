@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+  golang-db:
+    image: mariadb:latest
+    container_name: golang-db
+    hostname: golang-db
+    restart: unless-stopped
+    tty: true
+    environment:
+      - MARIADB_DATABASE=golang
+      - MARIADB_USER=golang
+      - MARIADB_PASSWORD=00000000
+      - MARIADB_ROOT_PASSWORD=00000000
+    command: --port=3310 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - '3310:3310'
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - netgolang
+  golang-phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: golang-phpmyadmin
+    restart: unless-stopped
+    tty: true
+    environment:
+      - PMA_HOST=golang-db
+      - PMA_PORT=3310
+      - PMA_ARBITRARY=1
+      - PMA_USER=golang
+      - PMA_PASSWORD=00000000
+    ports:
+      - '89:80'
+    networks:
+      - netgolang
+    depends_on:
+      - golang-db
+  golang:
+    build:
+        context: . 
+        dockerfile: Dockerfile
+    container_name: gocrud
+    image: golang-crud
+    restart: always
+    volumes:
+      - ./:/app
+    ports:
+      - "8095:8080"
+    networks:
+      - netgolang
+    depends_on:
+      - golang-db
+networks:
+  netgolang:
+    driver: bridge
