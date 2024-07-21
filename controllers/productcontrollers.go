@@ -8,7 +8,7 @@ import (
 	"go-crud/models"
 )
 
-// ProductHandler
+// Product Handler
 func ProductHandler(w http.ResponseWriter, r *http.Request) {
 
     db, err := models.OpenDB()
