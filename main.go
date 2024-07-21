@@ -41,7 +41,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
     // HTML BUFFER
     var htmlResponse string
-    htmlResponse += "<html><body><h1>Product List</h1><table border='1'><tr><th>ID</th><th>Name</th><th>Quantity</th></tr>"
+    htmlResponse += "<html><body><h1>Product List with Golang</h1><table border='1'><tr><th>ID</th><th>Name</th><th>Quantity</th></tr>"
 
     // HTML Table to display results
     for rows.Next() {
