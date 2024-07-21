@@ -9,9 +9,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//--------------------------------------
-// product list with database access (mariadb)
-//--------------------------------------
+//--------------------------------------------
+// product list with database source.
+//--------------------------------------------
+
 func home(w http.ResponseWriter, r *http.Request) {
     
     //secrets - only for dev
@@ -40,7 +41,7 @@ func home(w http.ResponseWriter, r *http.Request) {
     }
     defer products.Close()
 
-    // HTML BUFFER
+    // HTML TEMPLATE WITH PRODUCTS - ARTURO
     var htmlResponse string
 
     htmlResponse += "<html><body><h1>Product List with Golang</h1><table border='1'><tr><th>ID</th><th>Name</th><th>Quantity</th></tr>"
