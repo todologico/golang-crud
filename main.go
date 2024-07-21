@@ -1,6 +1,8 @@
 package main
 
-// MVC basic structure with golang - Arturo - 2024
+//-------------------------------------------------------------------------------
+// MVC basic structure with golang, for learning purposes only - Arturo - 2024
+//-------------------------------------------------------------------------------
 
 import (
 	"fmt"
