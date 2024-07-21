@@ -19,6 +19,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
     // database connection
     db, err := sql.Open("mysql", dsn)
+
     if err != nil {
         http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
         return
@@ -32,24 +33,25 @@ func home(w http.ResponseWriter, r *http.Request) {
     }
 
     // Query
-    rows, err := db.Query("SELECT id, name, quantity FROM products")
+    products, err := db.Query("SELECT id, name, quantity FROM products")
     if err != nil {
         http.Error(w, "Error executing the query: "+err.Error(), http.StatusInternalServerError)
         return
     }
-    defer rows.Close()
+    defer products.Close()
 
     // HTML BUFFER
     var htmlResponse string
+
     htmlResponse += "<html><body><h1>Product List with Golang</h1><table border='1'><tr><th>ID</th><th>Name</th><th>Quantity</th></tr>"
 
     // HTML Table to display results
-    for rows.Next() {
+    for products.Next() {
         var id int
         var name string
         var quantity int
         
-        err := rows.Scan(&id, &name, &quantity)
+        err := products.Scan(&id, &name, &quantity)
         if err != nil {
             http.Error(w, "Error reading row: "+err.Error(), http.StatusInternalServerError)
             return
@@ -58,8 +60,8 @@ func home(w http.ResponseWriter, r *http.Request) {
         htmlResponse += fmt.Sprintf("<tr><td>%d</td><td>%s</td><td>%d</td></tr>", id, name, quantity)
     }
 
-    // Verify for errors while iterating over rows
-    if err := rows.Err(); err != nil {
+    // Verify for errors while iterating over products
+    if err := products.Err(); err != nil {
         http.Error(w, "Error during row iteration: "+err.Error(), http.StatusInternalServerError)
         return
     }
@@ -99,9 +101,6 @@ func products(w http.ResponseWriter, r *http.Request) {
 // main method routing
 //--------------------------------------
 func main() {
-
-  
-
 
     http.HandleFunc("/", home)
 
