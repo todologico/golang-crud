@@ -1,4 +1,4 @@
-module go-crud
+module github.com/todologico/golang-crud
 
 go 1.22
 
