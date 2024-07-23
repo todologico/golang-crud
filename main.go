@@ -6,9 +6,10 @@ package main
 
 import (
 	"fmt"
-	"go-crud/controllers"
 	"log"
 	"net/http"
+
+	"github.com/todologico/golang-crud/controllers"
 )
 
 //--------------------------------------
