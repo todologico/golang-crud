@@ -6,13 +6,11 @@ RUN go install github.com/githubnemo/CompileDaemon@latest
 
 COPY go.mod go.sum ./
 
-RUN apk add --no-cache git
-
 RUN go mod download && go mod verify
 
-COPY *.go ./
+COPY . .
 
-RUN go build -o main . 
+RUN go build -o main .
 
 RUN chmod +x /app/main
 
