@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/todologico/golang-crud/controllers/productcontrollers"
+	"github.com/todologico/golang-crud/controllers/controllers"
 )
 
 //--------------------------------------
@@ -17,7 +17,7 @@ import (
 //--------------------------------------
 func main() {
 
-    http.HandleFunc("/", productcontrollers.ProductHandler)
+    http.HandleFunc("/", controllers.ProductHandler)
 
     http.HandleFunc("/services", services)
 

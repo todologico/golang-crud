@@ -1,4 +1,4 @@
-package productmodels
+package models
 
 import (
 	"database/sql"
