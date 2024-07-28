@@ -1,24 +1,24 @@
-package controllers
+package productcontrollers
 
 import (
 	"html/template"
 	"net/http"
 	"path/filepath"
 
-	"github.com/todologico/golang-crud/models"
+	"github.com/todologico/golang-crud/models/productmodels"
 )
 
 // Product Handler
 func ProductHandler(w http.ResponseWriter, r *http.Request) {
 
-    db, err := models.OpenDB()
+    db, err := productmodels.OpenDB()
     if err != nil {
         http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
         return
     }
     defer db.Close()
 
-    products, err := models.GetProducts(db)
+    products, err := productmodels.GetProducts(db)
     if err != nil {
         http.Error(w, "Error executing the query: "+err.Error(), http.StatusInternalServerError)
         return
