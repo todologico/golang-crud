@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/todologico/golang-crud/controllers/controllers"
+	"github.com/todologico/golang-crud/controllers"
 )
 
 //--------------------------------------
