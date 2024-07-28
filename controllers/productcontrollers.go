@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"go-crud/models"
+	"github.com/todologico/golang-crud/models"
 )
 
 // Product Handler
