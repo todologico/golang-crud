@@ -24,7 +24,7 @@ func GetProducts(db *sql.DB) ([]Product, error) {
 
     var products []Product
 
-    //paso las rows al Product struct
+    //sending rows to the struct product
     for rows.Next() {
 
         var product Product
