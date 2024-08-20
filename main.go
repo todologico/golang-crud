@@ -12,23 +12,24 @@ import (
 	"github.com/todologico/golang-crud/controllers"
 )
 
-//--------------------------------------
+// --------------------------------------
 // main method routing
-//--------------------------------------
+// --------------------------------------
 func main() {
 
-    http.HandleFunc("/", controllers.ProductHandler)
+	http.HandleFunc("/", controllers.ProductHandler)
 
-    http.HandleFunc("/services", services)
+	http.HandleFunc("/delete", controllers.DeleteProductHandler)
 
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	http.HandleFunc("/services", services)
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-//--------------------------------------
+// --------------------------------------
 // services
-//--------------------------------------
+// --------------------------------------
 func services(w http.ResponseWriter, r *http.Request) {
 
-    fmt.Fprintf(w, "services url")
+	fmt.Fprintf(w, "services url")
 }
-

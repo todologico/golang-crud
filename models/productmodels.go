@@ -32,7 +32,7 @@ func GetProducts(db *sql.DB) ([]Product, error) {
 	//sending rows to the struct product
 	for rows.Next() {
 
-		if err := rows.Scan(&single.id, &single.prod_name, &single.prod_quantity, &single.prod_token); err != nil {
+		if err := rows.Scan(&single.Id, &single.Prod_name, &single.Prod_quantity, &single.Prod_token); err != nil {
 			return nil, err
 		}
 
@@ -45,4 +45,12 @@ func GetProducts(db *sql.DB) ([]Product, error) {
 	}
 
 	return products, nil
+}
+
+// ---------------------------------------------------
+
+// Delete a product from the database by id and prod_token
+func DeleteProduct(db *sql.DB, id int, prodToken string) error {
+	_, err := db.Query("DELETE FROM products WHERE id = ? AND prod_token = ?", id, prodToken)
+	return err
 }

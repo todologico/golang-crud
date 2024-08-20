@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine
+FROM golang:alpine3.20
 
 WORKDIR /app
 
@@ -15,8 +15,5 @@ RUN go build -o main .
 RUN chmod +x /app/main
 
 EXPOSE 8080
-
-#CMD ["CompileDaemon", "-build=go run main.go", "-directory=/app"]
-#CMD ["CompileDaemon", "-build=go build -o /app", "-directory=/app"]
 
 ENTRYPOINT ["CompileDaemon", "--build=go build -o main .", "--command=./main"]
