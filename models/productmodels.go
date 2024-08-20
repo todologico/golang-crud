@@ -4,41 +4,45 @@ import (
 	"database/sql"
 )
 
-// Product represents a product record in the database
+// Product represents a record in the database
 type Product struct {
-    ID       int
-    Name     string
-    Quantity int
+	Id            int
+	Prod_name     string
+	Prod_quantity int
+	Prod_token    string
 }
 
 // GetProducts retrieves products from the database
 func GetProducts(db *sql.DB) ([]Product, error) {
 
-    rows, err := db.Query("SELECT id, name, quantity FROM products")
+	rows, err := db.Query("SELECT id, prod_name, prod_quantity, prod_token FROM products")
 
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
-    defer rows.Close()
+	defer rows.Close()
 
-    var products []Product
+	//struct slice
+	var products []Product
 
-    //sending rows to the struct product
-    for rows.Next() {
+	//struct
+	var single Product
 
-        var product Product
+	//sending rows to the struct product
+	for rows.Next() {
 
-        if err := rows.Scan(&product.ID, &product.Name, &product.Quantity); err != nil {
-            return nil, err
-        }
+		if err := rows.Scan(&single.id, &single.prod_name, &single.prod_quantity, &single.prod_token); err != nil {
+			return nil, err
+		}
 
-        products = append(products, product)
-    }
+		//slice
+		products = append(products, single)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, err
-    }
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 
-    return products, nil
+	return products, nil
 }

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: golang-db:3310
--- Tiempo de generación: 29-07-2024 a las 00:15:02
--- Versión del servidor: 11.4.2-MariaDB-ubu2404
--- Versión de PHP: 8.2.18
+-- Host: golang-db:3310
+-- Generation Time: Aug 20, 2024 at 04:57 PM
+-- Server version: 11.5.2-MariaDB-ubu2404
+-- PHP Version: 8.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,49 +18,49 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `golang`
+-- Database: `golang`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `quantity` int(11) NOT NULL
+  `id` bigint(20) NOT NULL,
+  `prod_name` varchar(100) NOT NULL,
+  `prod_quantity` int(11) NOT NULL,
+  `prod_token` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `products`
+-- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `quantity`) VALUES
-(1, 'ttryrtyrty', 33),
-(2, 'aaaaaaaaaaaa', 34),
-(3, 'vvvvvvv', 12);
+INSERT INTO `products` (`id`, `prod_name`, `prod_quantity`, `prod_token`) VALUES
+(1, 'demo product demo zzz', 105, 'fghdfhgdfhg'),
+(2, 'demo 234', 45, 'rtytrytrytry');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
