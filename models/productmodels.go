@@ -47,6 +47,24 @@ func GetProducts(db *sql.DB) ([]Product, error) {
 	return products, nil
 }
 
+//---------------------------------------------------
+
+// GetProduct retrieves a product from the database based on id and prod_token
+func GetProduct(db *sql.DB, id int, prodToken string) (*Product, error) {
+
+	var product Product
+
+	query := "SELECT id, prod_name, prod_quantity, prod_token FROM products WHERE id = ? AND prod_token = ?"
+
+	err := db.QueryRow(query, id, prodToken).Scan(&product.Id, &product.Prod_name, &product.Prod_quantity, &product.Prod_token)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
+
 // ---------------------------------------------------
 
 // Delete a product from the database by id and prod_token

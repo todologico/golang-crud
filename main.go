@@ -17,9 +17,11 @@ import (
 // --------------------------------------
 func main() {
 
-	http.HandleFunc("/", controllers.ProductHandler)
+	http.HandleFunc("/", controllers.ListProduct)
 
-	http.HandleFunc("/delete", controllers.DeleteProductHandler)
+	http.HandleFunc("/edit", controllers.EditProduct)
+
+	http.HandleFunc("/delete", controllers.DeleteProduct)
 
 	http.HandleFunc("/services", services)
 
@@ -31,5 +33,5 @@ func main() {
 // --------------------------------------
 func services(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprintf(w, "services url")
+	fmt.Fprintf(w, "services url another package")
 }

@@ -10,7 +10,7 @@ import (
 )
 
 // Product Handler
-func ProductHandler(w http.ResponseWriter, r *http.Request) {
+func ListProduct(w http.ResponseWriter, r *http.Request) {
 
 	db, err := models.OpenDB()
 
@@ -44,17 +44,64 @@ func ProductHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//---------------------------------------------------------
+
+// EditProduct with the product edit page
+func EditProduct(w http.ResponseWriter, r *http.Request) {
+
+	// parameters
+	idStr := r.URL.Query().Get("id")
+	prodToken := r.URL.Query().Get("prod_token")
+
+	// string to integer
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
+	// db connection
+	db, err := models.OpenDB()
+	if err != nil {
+		http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	// get the product !!
+	product, err := models.GetProduct(db, id, prodToken)
+	if err != nil {
+		http.Error(w, "Error retrieving product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// HTML
+	tmplPath := filepath.Join("views", "edit.html")
+	tmpl, err := template.ParseFiles(tmplPath)
+	if err != nil {
+		http.Error(w, "Error loading template: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Render
+	w.Header().Set("Content-Type", "text/html")
+	if err := tmpl.Execute(w, product); err != nil {
+		http.Error(w, "Error rendering template: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 //----------------------------------------------------------
 
 // Delete Handler
-func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
 
-	// get parameters
+	// post parameters
 	idStr := r.FormValue("id")
 	prodToken := r.FormValue("prod_token")
 
@@ -82,4 +129,5 @@ func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	// redirect to product list
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+
 }
