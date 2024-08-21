@@ -20,6 +20,8 @@ func main() {
 	http.HandleFunc("/", controllers.ListProduct)
 
 	http.HandleFunc("/edit", controllers.EditProduct)
+	
+	http.HandleFunc("/editprocess", controllers.EditProcessProduct)
 
 	http.HandleFunc("/delete", controllers.DeleteProduct)
 

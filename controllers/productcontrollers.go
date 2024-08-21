@@ -51,7 +51,7 @@ func EditProduct(w http.ResponseWriter, r *http.Request) {
 
 	// parameters
 	idStr := r.URL.Query().Get("id")
-	prodToken := r.URL.Query().Get("prod_token")
+	prod_token := r.URL.Query().Get("prod_token")
 
 	// string to integer
 	id, err := strconv.Atoi(idStr)
@@ -69,7 +69,7 @@ func EditProduct(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	// get the product !!
-	product, err := models.GetProduct(db, id, prodToken)
+	product, err := models.GetProduct(db, id, prod_token)
 	if err != nil {
 		http.Error(w, "Error retrieving product: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -103,7 +103,7 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 
 	// post parameters
 	idStr := r.FormValue("id")
-	prodToken := r.FormValue("prod_token")
+	prod_token := r.FormValue("prod_token")
 
 	// Cconvert the string id to int
 	id, err := strconv.Atoi(idStr)
@@ -121,7 +121,7 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	// delete product model
-	err = models.DeleteProduct(db, id, prodToken)
+	err = models.DeleteProduct(db, id, prod_token)
 	if err != nil {
 		http.Error(w, "Failed to delete product: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -131,3 +131,55 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }
+
+
+//----------------------------------------------------------
+
+// EditProcessProduct Handler
+// EditProcessProduct Handler
+func EditProcessProduct(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// post parameters
+	idStr := r.FormValue("id")
+	prod_token := r.FormValue("prod_token")
+	prod_name := r.FormValue("prod_name")
+	prod_quantityStr := r.FormValue("prod_quantity")
+
+	// Convert the string id to int
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
+	// Convert the string prod_quantity to int
+	prod_quantity, err := strconv.Atoi(prod_quantityStr)
+	if err != nil {
+		http.Error(w, "Invalid product quantity", http.StatusBadRequest)
+		return
+	}
+
+	// db connection
+	db, err := models.OpenDB()
+	if err != nil {
+		http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	// update product model
+	err = models.UpdateProduct(db, id, prod_token, prod_name, prod_quantity)
+	if err != nil {
+		http.Error(w, "Failed to update product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// redirect to product list
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
