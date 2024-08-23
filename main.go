@@ -19,6 +19,10 @@ func main() {
 
 	http.HandleFunc("/", controllers.ListProduct)
 
+	http.HandleFunc("/insert", controllers.InsertProduct)
+
+	http.HandleFunc("/insertprocess", controllers.InsertProcessProduct)
+
 	http.HandleFunc("/edit", controllers.EditProduct)
 	
 	http.HandleFunc("/editprocess", controllers.EditProcessProduct)

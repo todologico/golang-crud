@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
+	"go-crud/utils"
 
 	"github.com/todologico/golang-crud/models"
 )
@@ -43,6 +44,73 @@ func ListProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+//---------------------------------------------------------
+
+func InsertProduct(w http.ResponseWriter, r *http.Request) {
+	// HTML
+	tmplPath := filepath.Join("views", "insert.html")
+	tmpl, err := template.ParseFiles(tmplPath)
+	if err != nil {
+		http.Error(w, "Error loading template: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Render
+	w.Header().Set("Content-Type", "text/html")
+	if err := tmpl.Execute(w, nil); err != nil {
+		http.Error(w, "Error rendering template: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+
+//---------------------------------------------------
+
+// InsertProcessProduct Handler
+func InsertProcessProduct(w http.ResponseWriter, r *http.Request) {
+
+	//token generator utils
+	prod_token, err := utils.GenerateRandomToken(50)
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Obtener los parámetros del formulario
+	prodName := r.FormValue("prod_name")
+	prodQuantityStr := r.FormValue("prod_quantity")
+
+	// Convertir la cantidad del producto de cadena a entero
+	prodQuantity, err := strconv.Atoi(prodQuantityStr)
+	if err != nil {
+		http.Error(w, "Invalid product quantity", http.StatusBadRequest)
+		return
+	}
+
+	// Token fijo para pruebas maximo 50 caracteres
+	prodToken := "kfgjlñsdkfgjsdlsdkfgjlñsdkgj"
+
+	// Conexión a la base de datos
+	db, err := models.OpenDB()
+	if err != nil {
+		http.Error(w, "Error connecting to the database: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	// Insertar producto
+	err = models.InsertProduct(db, prodName, prodQuantity, prodToken)
+	if err != nil {
+		http.Error(w, "Failed to insert product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Redirigir a la lista de productos
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 
 //---------------------------------------------------------
 
@@ -135,7 +203,6 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 
 //----------------------------------------------------------
 
-// EditProcessProduct Handler
 // EditProcessProduct Handler
 func EditProcessProduct(w http.ResponseWriter, r *http.Request) {
 

@@ -99,3 +99,27 @@ func UpdateProduct(db *sql.DB, id int, prod_token string, prodName string, prodQ
 
 	return nil
 }
+
+//---------------------------------------------------------
+
+// InsertProduct inserts a new product into the database
+func InsertProduct(db *sql.DB, prodName string, prodQuantity int, prodToken string) error {
+	
+	query := "INSERT INTO products (prod_name, prod_quantity, prod_token) VALUES (?, ?, ?)"
+	result, err := db.Exec(query, prodName, prodQuantity, prodToken)
+	if err != nil {
+		return err
+	}
+
+	// Check if the insertion was successful
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return errors.New("no rows affected")
+	}
+
+	return nil
+}
