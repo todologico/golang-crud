@@ -6,20 +6,25 @@ import (
 
 // My product represents a record in the database
 type Product struct {
+
 	Id            int
 	Prod_name     string
 	Prod_quantity int
 	Prod_token    string
+
 }
 
 //------------------------------------------------------------
 
 // GetProducts retrieves products from the database
 func GetProducts() ([]Product, error) {
+
 	db, err := OpenDB()
+
 	if err != nil {
 		return nil, err
 	}
+
 	defer CloseDB(db)
 
 	rows, err := db.Query("SELECT id, prod_name, prod_quantity, prod_token FROM products")
@@ -31,6 +36,7 @@ func GetProducts() ([]Product, error) {
 
 	var products []Product
 
+	// for loop here
 	for rows.Next() {
 
 		var single Product

@@ -5,6 +5,8 @@ Golang Crud with Docker and Hot Reload with CompileDaemon.
  # Install
  docker-compose -f golang.yml up -d
 
+ update the mysql with "products.sql"
+
 # Browser app
 http://localhost:8095/
 
