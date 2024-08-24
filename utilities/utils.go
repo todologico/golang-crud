@@ -12,13 +12,16 @@ func GenerateRandomToken(length int) (string, error) {
 	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 	var token strings.Builder
+
 	token.Grow(length) // Preallocate the string builder with the specified length
 
 	for i := 0; i < length; i++ {
+
 		// Generate a random index to select a character from charset
 		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+
 		if err != nil {
-			return "", err // Return the error if there's an issue generating the random number
+			return "", err 
 		}
 
 		token.WriteByte(charset[randomIndex.Int64()])

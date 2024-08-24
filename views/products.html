@@ -33,7 +33,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Product List</h2>
+            <h2>Product List with Golang 1.23</h2>
             <a href="/insert" class="btn btn-success">Insert Product</a>
         </div>
 
@@ -62,7 +62,7 @@
                       <form method="POST" action="/delete" style="display:inline;">
                           <input type="hidden" name="id" value="{{.Id}}">
                           <input type="hidden" name="prod_token" value="{{.Prod_token}}">
-                          <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                          <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                       </form>
                   </td>
                 </tr>

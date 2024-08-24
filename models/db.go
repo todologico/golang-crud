@@ -9,10 +9,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+//------------------------------------------------------------
+
 // LoadEnv loads environment variables from a .env file
 func LoadEnv() error {
     return godotenv.Load()
 }
+
+//------------------------------------------------------------
 
 // OpenDB opens a connection to the database
 func OpenDB() (*sql.DB, error) {
@@ -41,4 +45,13 @@ func OpenDB() (*sql.DB, error) {
     }
 
     return db, nil
+}
+
+//------------------------------------------------------------
+
+// CloseDB
+func CloseDB(db *sql.DB) {
+    if err := db.Close(); err != nil {
+        fmt.Println("Error closing database connection:", err)
+    }
 }
