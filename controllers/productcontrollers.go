@@ -5,8 +5,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
-	"go-crud/utils"
-
+	"github.com/todologico/golang-crud/utilities"
 	"github.com/todologico/golang-crud/models"
 )
 
@@ -71,7 +70,7 @@ func InsertProduct(w http.ResponseWriter, r *http.Request) {
 func InsertProcessProduct(w http.ResponseWriter, r *http.Request) {
 
 	//token generator utils
-	prod_token, err := utils.GenerateRandomToken(50)
+	prodToken, err := utils.GenerateRandomToken(50)
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -90,7 +89,7 @@ func InsertProcessProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Token fijo para pruebas maximo 50 caracteres
-	prodToken := "kfgjlñsdkfgjsdlsdkfgjlñsdkgj"
+	//prodToken := "kfgjlñsdkfgjsdlsdkfgjlñsdkgj"
 
 	// Conexión a la base de datos
 	db, err := models.OpenDB()
