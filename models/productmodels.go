@@ -1,7 +1,6 @@
 package models
 
 import (
-	"database/sql"
 	"errors"
 )
 
@@ -121,6 +120,8 @@ func UpdateProduct(id int, prod_token string, prodName string, prodQuantity int)
 
 	return nil
 }
+
+//------------------------------------------------------------
 
 // InsertProduct inserts a new product into the database
 func InsertProduct(prodName string, prodQuantity int, prodToken string) error {
